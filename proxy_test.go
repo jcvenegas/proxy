@@ -486,12 +486,12 @@ func peekIOSession(proxy *proxy, tokenStr string) *ioSession {
 	proxy.Lock()
 	defer proxy.Unlock()
 
-	session, err := proxy.getSesssionByToken(token)
-	if err != nil {
+	info := proxy.tokenToSession[token]
+	if info == nil {
 		return nil
 	}
 
-	return session.vm.findSessionByToken(token)
+	return info.vm.findSessionByToken(token)
 }
 
 func TestShimIO(t *testing.T) {
